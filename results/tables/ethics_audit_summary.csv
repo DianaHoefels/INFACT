@@ -1,0 +1,8 @@
+domain,sub_key,severity,details_summary
+outcome_bias,author_claim,medium,"{'top5_highest_false_rate': {'Ion Popescu': 0.6667, 'Ana Stancu': 0.5, 'Gheorghe Dan': 0.5, 'Maria Ionescu': 0.0}, 'mean_false_rate': 0.4167, 'std_false_rate': 0.2887}"
+outcome_bias,domain_claim,medium,"{'top5_highest_false_rate': {'Sanatate': 1.0, 'Economie': 0.4, 'Educatie': 0.0, 'Politica': 0.0, 'Social': 0.0}, 'mean_false_rate': 0.28, 'std_false_rate': 0.4382}"
+linguistic_bias_check,linguistic_bias_check,medium,"{'hedge_rate_by_outcome': {'false': 0.0, 'partial': 0.0, 'true': 0.0, 'unverifiable': 0.0}, 'certainty_rate_by_outcome': {'false': 0.0, 'partial': 0.0, 'true': 25.0, 'unverifiable': 0.0}, 'hedge_range': 0.0, 'certainty_range': 25.0}"
+representation_bias,author_claim,low,"{'n_unique': 2, 'imbalance_ratio': 1.5, 'top5_share': 1.0, 'most_common': 'Ion Popescu', 'most_common_count': 3}"
+representation_bias,domain_claim,low,"{'n_unique': 3, 'imbalance_ratio': 5.0, 'top5_share': 1.0, 'most_common': 'Economie', 'most_common_count': 5}"
+representation_bias,source_outlet,low,"{'n_unique': 2, 'imbalance_ratio': 1.5, 'top5_share': 1.0, 'most_common': 'Digi24', 'most_common_count': 3}"
+temporal_bias,temporal_bias,low,"{'years_covered': [2019, 2020, 2021, 2022, 2023], 'missing_years': [], 'severe_drops': {'2023': -0.6667}, 'min_year': 2019, 'max_year': 2023}"
