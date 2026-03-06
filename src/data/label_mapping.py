@@ -52,7 +52,7 @@ VERDICT_NORMALIZATION: dict[str, str] = {
     "mostly true": "Mostly True",
     "partial adevarat": "Mostly True",
     "parțial adevărat": "Mostly True",
-    "partial adevărat": "Mostly True",
+    "partial adevărat": "Mostly True",  # diacritic-stripped variant of "parțial"
     # Mixed variants — includes "trunchiat" (truncated/cherry-picked claims)
     "mixt": "Mixed",
     "mixed": "Mixed",
@@ -72,7 +72,10 @@ VERDICT_NORMALIZATION: dict[str, str] = {
     "false": "False",
     "incorect": "False",
     "mincinos": "False",
-    # Unverifiable variants
+    # Unverifiable variants — includes claims that cannot be publicly verified
+    # "numai cu sprijin instituțional" (only with institutional support) is mapped
+    # here because public verification is not feasible; the claim requires
+    # privileged access to official data.
     "neverificabil": "Unverifiable",
     "unverifiable": "Unverifiable",
     "nu se poate verifica": "Unverifiable",
