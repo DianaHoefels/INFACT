@@ -1,3 +1,10 @@
+# Project-generated outputs (not to be committed)
+results/figures/*.png
+results/reports/*.md
+results/tables/*.csv
+results/tables/*.tsv
+data/rofact.tsv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
