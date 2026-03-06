@@ -1,4 +1,0 @@
-dimension,unique_values,total_claims,gini,top10_share
-author_claim,4,10,0.1,1.0
-domain_claim,5,10,0.36,1.0
-source_outlet,4,10,0.1,1.0

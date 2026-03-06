@@ -1,9 +1,0 @@
-index,word_count_claim_text,word_count_context,word_count_verification_scope,word_count_verification,word_count_conclusion
-count,10.0,10.0,10.0,10.0,10.0
-mean,3.8,2.0,1.0,3.5,1.5
-std,0.9,0.0,0.0,1.4,0.5
-min,2.0,2.0,1.0,2.0,1.0
-25%,3.2,2.0,1.0,3.0,1.0
-50%,4.0,2.0,1.0,3.0,1.5
-75%,4.0,2.0,1.0,4.0,2.0
-max,5.0,2.0,1.0,7.0,2.0

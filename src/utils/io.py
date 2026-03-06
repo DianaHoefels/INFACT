@@ -45,7 +45,7 @@ def save_tsv(df, path: str | os.PathLike) -> None:
     """Save a DataFrame as a UTF-8 TSV file."""
     try:
         Path(path).parent.mkdir(parents=True, exist_ok=True)
-        df.to_csv(path, index=False, sep="\t", encoding="utf-8", quoting=csv.QUOTE_NONE)
+        df.to_csv(path, index=False, sep="\t", encoding="utf-8", quoting=csv.QUOTE_MINIMAL)
     except Exception as exc:
         logging.getLogger(__name__).error("save_tsv failed for %s: %s", path, exc)
 

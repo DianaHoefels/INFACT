@@ -17,6 +17,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 from src.utils.io import save_figure, save_markdown, save_table, setup_logging
@@ -175,8 +176,6 @@ def stratified_sample(
     if len(df) <= n:
         return df.copy()
 
-    rng = pd.np.random.default_rng(seed) if hasattr(pd, "np") else None
-    import numpy as np  # noqa: PLC0415
     rng = np.random.default_rng(seed)
 
     groups = []
