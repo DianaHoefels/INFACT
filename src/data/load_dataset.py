@@ -89,9 +89,11 @@ def load_infact(
         if removed:
             logger.info("Dropped %d duplicate rows.", removed)
 
-    # Parse date column if present
+    # Parse date column if present; the INFACT dataset uses DD.MM.YYYY format
     if "date_verified" in df.columns:
-        df["date_verified"] = pd.to_datetime(df["date_verified"], errors="coerce")
+        df["date_verified"] = pd.to_datetime(
+            df["date_verified"], format="%d.%m.%Y", errors="coerce"
+        )
 
     return df
 

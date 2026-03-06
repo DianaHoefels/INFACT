@@ -52,13 +52,15 @@ VERDICT_NORMALIZATION: dict[str, str] = {
     "mostly true": "Mostly True",
     "partial adevarat": "Mostly True",
     "parțial adevărat": "Mostly True",
-    # Mixed variants
+    "partial adevărat": "Mostly True",
+    # Mixed variants — includes "trunchiat" (truncated/cherry-picked claims)
     "mixt": "Mixed",
     "mixed": "Mixed",
     "partial": "Mixed",
     "parțial": "Mixed",
     "half true": "Mixed",
     "half-true": "Mixed",
+    "trunchiat": "Mixed",
     # Mostly False variants
     "in mare parte fals": "Mostly False",
     "în mare parte fals": "Mostly False",
@@ -76,6 +78,8 @@ VERDICT_NORMALIZATION: dict[str, str] = {
     "nu se poate verifica": "Unverifiable",
     "insufficient evidence": "Unverifiable",
     "dovezi insuficiente": "Unverifiable",
+    "imposibil de verificat": "Unverifiable",
+    "numai cu sprijin instituțional": "Unverifiable",
 }
 
 # Ordered list of normalised labels (defines the canonical label space)

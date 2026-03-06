@@ -200,6 +200,22 @@ def run_baseline(
     texts = build_text_features(df_clean, use_context=use_context)
     labels = df_clean["label_id"].astype(int)
 
+    # Drop classes with fewer samples than n_splits to allow stratified CV
+    class_counts = labels.value_counts()
+    rare_classes = class_counts[class_counts < n_splits].index
+    if len(rare_classes) > 0:
+        from src.data.label_mapping import ID_TO_LABEL
+        rare_names = [ID_TO_LABEL.get(c, str(c)) for c in rare_classes.tolist()]
+        logger.warning(
+            "Dropping %d class(es) with fewer than %d samples for CV: %s",
+            len(rare_classes),
+            n_splits,
+            rare_names,
+        )
+        mask = ~labels.isin(rare_classes)
+        texts = texts[mask]
+        labels = labels[mask]
+
     logger.info(
         "Running baseline experiments on %d samples, %d classes.",
         len(labels),
