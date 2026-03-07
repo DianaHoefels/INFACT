@@ -195,7 +195,7 @@ def get_label_statistics(df: pd.DataFrame, label_col: str = "verdict_normalized"
     return {
         "counts": counts.to_dict(),
         "proportions": proportions.to_dict(),
-        "n_classes": int(counts.nunique()),
+        "n_classes": int(len(counts)),
     }
 
 
