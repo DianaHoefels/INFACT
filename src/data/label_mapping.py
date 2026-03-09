@@ -93,7 +93,7 @@ LABEL_ORDER: list[str] = [
     "Mostly False",
     "False",
     "Unverifiable",
-    "Other",
+    # 'Other' is intentionally excluded
 ]
 
 LABEL_TO_ID: dict[str, int] = {label: idx for idx, label in enumerate(LABEL_ORDER)}
@@ -102,7 +102,7 @@ ID_TO_LABEL: dict[int, str] = {idx: label for label, idx in LABEL_TO_ID.items()}
 # Binary mapping: True-leaning vs False-leaning (collapses to 2 classes)
 BINARY_MAP: dict[str, int] = {
     "True": 1,
-    "Mostly True": 1,
+    "Mostly True": 0,
     "Mixed": 0,
     "Mostly False": 0,
     "False": 0,
@@ -137,6 +137,7 @@ def apply_label_mapping(
     target_col: str = "verdict_normalized",
     id_col: str = "label_id",
     binary_col: str = "label_binary",
+    drop_other: bool = True,  # New argument: drop rows mapped to 'Other'
 ) -> pd.DataFrame:
     """Add normalised label and numeric ID columns to *df*.
 
@@ -152,11 +153,13 @@ def apply_label_mapping(
         Name of the new column for integer label IDs.
     binary_col:
         Name of the new column for binary labels (1 = True-leaning, 0 = False-leaning).
+    drop_other:
+        If True, drop rows where the normalized label is 'Other'.
 
     Returns
     -------
     pd.DataFrame
-        A copy of *df* with three new columns appended.
+        A copy of *df* with three new columns appended, and (optionally) 'Other' rows dropped.
     """
     df = df.copy()
     df[target_col] = df[source_col].apply(normalize_verdict)
@@ -171,6 +174,9 @@ def apply_label_mapping(
         logger.warning(
             "%d records mapped to 'Other'. Consider extending VERDICT_NORMALIZATION.", unmapped
         )
+        if drop_other:
+            df = df[df[target_col] != "Other"].reset_index(drop=True)
+            logger.info("Dropped %d rows with 'Other' label.", unmapped)
 
     return df
 
@@ -213,3 +219,6 @@ if __name__ == "__main__":
     dataset = apply_label_mapping(dataset)
     stats = get_label_statistics(dataset)
     print(json.dumps(stats, indent=2))
+    # Save the mapped dataset as TSV
+    dataset.to_csv("data/infact_dataset_mapped.tsv", sep="\t", index=False)
+    print("Mapped dataset saved to data/infact_dataset_mapped.tsv")

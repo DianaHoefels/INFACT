@@ -39,6 +39,23 @@ logger = logging.getLogger(__name__)
 FIGURE_DPI = 150
 
 
+# Optional: Romanian-to-English mapping for domains (extend as needed)
+DOMAIN_TRANSLATION = {
+    # Example mappings; extend as needed based on dataset values
+    "politică": "Politics",
+    "sănătate": "Health",
+    "educație": "Education",
+    "economie": "Economy",
+    "justiție": "Justice",
+    "mediu": "Environment",
+    # Add more as needed
+}
+
+def translate_domain(domain: str) -> str:
+    """Translate Romanian domain names to English for plotting."""
+    return DOMAIN_TRANSLATION.get(domain, domain)
+
+
 # ---------------------------------------------------------------------------
 # Text-length helpers
 # ---------------------------------------------------------------------------
@@ -151,7 +168,8 @@ def plot_verdict_distribution(
     counts = df[label_col].value_counts()
     fig, ax = plt.subplots(figsize=(10, 5))
     counts.plot(kind="bar", ax=ax, color="steelblue", edgecolor="white")
-    ax.set_title(f"Verdict Distribution — {label_col}", fontsize=14)
+    # Use English for all labels
+    ax.set_title(f"Verdict Distribution — {label_col.replace('verdict_original', 'Original Verdict').replace('verdict_normalized', 'Normalized Verdict')}", fontsize=14)
     ax.set_xlabel("Verdict", fontsize=12)
     ax.set_ylabel("Count", fontsize=12)
     ax.tick_params(axis="x", rotation=45)
@@ -194,6 +212,8 @@ def plot_domain_distribution(
         return None
 
     counts = df["domain_claim"].value_counts().head(20)
+    # Translate domain names for plotting
+    counts.index = [translate_domain(domain) for domain in counts.index]
     fig, ax = plt.subplots(figsize=(12, 5))
     counts.plot(kind="bar", ax=ax, color="teal", edgecolor="white")
     ax.set_title("Top 20 Claim Domains", fontsize=14)
@@ -295,8 +315,10 @@ def plot_text_length_distribution(
         axes = [axes]
 
     for ax, col in zip(axes, cols):
+        # Use English for column titles
+        title = "Claim Length Distribution" if col == "claim_len" else "Context Length Distribution"
         ax.hist(df[col], bins=40, color="mediumslateblue", edgecolor="white")
-        ax.set_title(f"{col} distribution", fontsize=13)
+        ax.set_title(title, fontsize=13)
         ax.set_xlabel("Word count", fontsize=11)
         ax.set_ylabel("Frequency", fontsize=11)
 

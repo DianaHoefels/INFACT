@@ -3,6 +3,10 @@ main.py
 -------
 CLI entry point for the INFACT research pipeline.
 
+Copyright (c) 2026 Diana
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+See LICENSE for details.
+
 Provides subcommands to run individual modules or the full pipeline:
 
     python main.py stats        — corpus statistics (EDA)
@@ -78,8 +82,8 @@ def cmd_baseline(args: argparse.Namespace) -> None:
     df = _load_data(args.data_path)
     run_baseline(
         df,
-        use_context=args.use_context,
-        n_splits=args.n_splits,
+        use_context=getattr(args, 'use_context', False),
+        n_splits=getattr(args, 'n_splits', 5),
         output_dir=str(Path(args.output_dir) / "tables"),
     )
 
@@ -91,9 +95,9 @@ def cmd_llm(args: argparse.Namespace) -> None:
     df = _load_data(args.data_path)
     run_finetuning(
         df,
-        model_name=args.model_name,
-        num_epochs=args.num_epochs,
-        batch_size=args.batch_size,
+        model_name=getattr(args, 'model_name', 'bert-base-multilingual-cased'),
+        num_epochs=getattr(args, 'num_epochs', 3),
+        batch_size=getattr(args, 'batch_size', 16),
         output_dir=args.output_dir,
     )
 
