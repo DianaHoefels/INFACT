@@ -162,6 +162,8 @@ def plot_confusion_matrix(
 
 
 if __name__ == "__main__":
+    import tempfile
+
     logging.basicConfig(level=logging.INFO)
 
     # Minimal smoke-test with synthetic data
@@ -171,6 +173,7 @@ if __name__ == "__main__":
     y_pred = rng.choice(labels, size=100)
 
     label_names = ["True", "Mostly True", "Mixed", "Mostly False", "False"]
-    metrics = evaluate_predictions(y_true, y_pred, label_names=label_names, output_dir="/tmp")
-    plot_confusion_matrix(y_true, y_pred, label_names=label_names, output_dir="/tmp")
+    temp_dir = Path(tempfile.gettempdir()) / "infact_evaluation"
+    metrics = evaluate_predictions(y_true, y_pred, label_names=label_names, output_dir=str(temp_dir))
+    plot_confusion_matrix(y_true, y_pred, label_names=label_names, output_dir=str(temp_dir))
     print("Accuracy:", metrics["accuracy"])

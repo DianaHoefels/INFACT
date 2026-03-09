@@ -71,6 +71,12 @@ infact/
 pip install -r requirements.txt
 ```
 
+### Windows notes
+
+- All paths in the CLI accept Windows-style paths (e.g., `data\infact_dataset.tsv`).
+- If you run the module smoke tests directly (e.g., `python src/utils/io.py`), they now use the system temp directory, so no `/tmp` dependency is required.
+- For PowerShell users, the same commands below work without modification (use backticks for line continuations if needed).
+
 ## Usage
 
 `main.py` is the CLI entry point. All commands accept `--data_path` to specify the TSV dataset
@@ -93,6 +99,19 @@ python main.py baseline --data_path data/infact_dataset.tsv
 ```bash
 python main.py llm --data_path data/infact_dataset.tsv --model_name bert-base-multilingual-cased
 ```
+
+### Run transformer baselines (XLM-R + Romanian BERT)
+
+```bash
+python main.py transformers --data_path data/infact_dataset.tsv
+```
+
+Defaults are tuned for stronger performance (longer sequences, larger batch, lower LR, oversampling, tagged inputs). Key optional flags:
+
+- `--max_length 512` to include more context.
+- `--num_epochs 10` for longer fine-tuning.
+- `--keep_empty_context` to retain rows with missing context.
+- `--disable_tags` to remove `CLAIM/CONTEXT/SCOPE` input tags.
 
 ### Run deliberation analysis
 

@@ -143,9 +143,12 @@ def save_dataframe(
 
 
 if __name__ == "__main__":
+    import tempfile
+
     logging.basicConfig(level=logging.INFO)
-    ensure_dir("/tmp/infact_test")
-    save_json({"test": True, "value": 42}, "/tmp/infact_test/test.json")
-    loaded = load_json("/tmp/infact_test/test.json")
+    temp_dir = Path(tempfile.gettempdir()) / "infact_test"
+    ensure_dir(temp_dir)
+    save_json({"test": True, "value": 42}, temp_dir / "test.json")
+    loaded = load_json(temp_dir / "test.json")
     assert loaded["value"] == 42
     print("io.py smoke test passed.")

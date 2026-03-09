@@ -102,6 +102,29 @@ def cmd_llm(args: argparse.Namespace) -> None:
     )
 
 
+def cmd_transformers(args: argparse.Namespace) -> None:
+    """Run transformer baselines with cross-validation."""
+    from src.experiments.transformer_baselines import run_transformer_baselines
+
+    df = _load_data(args.data_path)
+    run_transformer_baselines(
+        df,
+        n_splits=getattr(args, 'n_splits', 5),
+        num_epochs=getattr(args, 'num_epochs', 8),
+        batch_size=getattr(args, 'batch_size', 16),
+        learning_rate=getattr(args, 'learning_rate', 1e-5),
+        max_length=getattr(args, 'max_length', 384),
+        gradient_accumulation_steps=getattr(args, 'gradient_accumulation_steps', 4),
+        output_dir=str(Path(args.output_dir) / "tables"),
+        max_samples=getattr(args, 'max_samples', None),
+        oversample=getattr(args, 'oversample', True),
+        merge_unverifiable=getattr(args, 'merge_unverifiable', True),
+        drop_empty_context=not getattr(args, 'keep_empty_context', False),
+        min_claim_tokens=getattr(args, 'min_claim_tokens', 3),
+        add_tags=not getattr(args, 'disable_tags', False),
+    )
+
+
 def cmd_deliberation(args: argparse.Namespace) -> None:
     """Run deliberation-aware discourse analysis."""
     from src.analysis.deliberation_metrics import run_deliberation_analysis
@@ -218,6 +241,58 @@ def build_parser() -> argparse.ArgumentParser:
     lp.add_argument("--num_epochs", type=int, default=3, help="Training epochs.")
     lp.add_argument("--batch_size", type=int, default=16, help="Batch size.")
 
+    # --- transformers ---
+    tp = subparsers.add_parser(
+        "transformers",
+        help="Run transformer baselines with stratified CV.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    tp.add_argument("--n_splits", type=int, default=5, help="Number of CV folds.")
+    tp.add_argument("--num_epochs", type=int, default=8, help="Training epochs.")
+    tp.add_argument("--batch_size", type=int, default=16, help="Batch size.")
+    tp.add_argument("--learning_rate", type=float, default=1e-5, help="Learning rate.")
+    tp.add_argument("--max_length", type=int, default=384, help="Max token length.")
+    tp.add_argument(
+        "--gradient_accumulation_steps",
+        type=int,
+        default=4,
+        help="Gradient accumulation steps.",
+    )
+    tp.add_argument(
+        "--max_samples",
+        type=int,
+        default=None,
+        help="Optional cap on samples for quick experiments.",
+    )
+    tp.add_argument(
+        "--oversample",
+        action="store_true",
+        default=True,
+        help="Oversample minority classes in each training fold.",
+    )
+    tp.add_argument(
+        "--merge_unverifiable",
+        action="store_true",
+        default=True,
+        help="Merge Unverifiable labels into Mixed.",
+    )
+    tp.add_argument(
+        "--keep_empty_context",
+        action="store_true",
+        help="Retain rows with empty context.",
+    )
+    tp.add_argument(
+        "--min_claim_tokens",
+        type=int,
+        default=3,
+        help="Minimum token count for claim_text rows.",
+    )
+    tp.add_argument(
+        "--disable_tags",
+        action="store_true",
+        help="Disable CLAIM/CONTEXT/SCOPE tags in the input text.",
+    )
+
     # --- deliberation ---
     subparsers.add_parser(
         "deliberation",
@@ -263,6 +338,7 @@ COMMAND_MAP = {
     "stats": cmd_stats,
     "baseline": cmd_baseline,
     "llm": cmd_llm,
+    "transformers": cmd_transformers,
     "deliberation": cmd_deliberation,
     "linguistic": cmd_linguistic,
     "ethics": cmd_ethics,
