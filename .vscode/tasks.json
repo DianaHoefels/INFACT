@@ -1,0 +1,36 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run transformer baselines (GPU)",
+			"type": "shell",
+			"command": "c:/Users/diana/git/INFACT/.venv/Scripts/python.exe",
+			"args": [
+				"main.py",
+				"--data_path",
+				"data/infact_canonical.tsv",
+				"transformers"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run Mistral Large (hosted API)",
+			"type": "shell",
+			"command": "c:/Users/diana/git/INFACT/.venv/Scripts/python.exe",
+			"args": [
+				"scripts/run_mistral_large_2411.py",
+				"--input_path",
+				"data/infact_canonical.tsv",
+				"--base_url",
+				"https://api.mistral.ai/v1",
+				"--model_name",
+				"mistralai/Mistral-Large-Instruct-2411"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

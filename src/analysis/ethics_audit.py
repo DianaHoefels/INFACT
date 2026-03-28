@@ -306,8 +306,8 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.INFO)
 
-    from src.data.label_mapping import apply_label_mapping
-    from src.data.load_dataset import load_infact, validate_dataset
+    from src.data_preprocessing.label_mapping import apply_label_mapping
+    from src.data_preprocessing.load_dataset import load_infact, validate_dataset
 
     data_path = sys.argv[1] if len(sys.argv) > 1 else "data/infact_dataset.tsv"
     dataset = load_infact(data_path)

@@ -395,8 +395,8 @@ def run_transformer_baselines(
 if __name__ == "__main__":
     import argparse
 
-    from src.data.label_mapping import apply_label_mapping
-    from src.data.load_dataset import load_infact, validate_dataset
+    from src.data_preprocessing.label_mapping import apply_label_mapping
+    from src.data_preprocessing.load_dataset import load_infact, validate_dataset
 
     logging.basicConfig(level=logging.INFO)
 

@@ -12,6 +12,7 @@ Provides subcommands to run individual modules or the full pipeline:
     python main.py stats        — corpus statistics (EDA)
     python main.py baseline     — baseline claim verification
     python main.py llm          — LLM-based claim verification
+    python main.py llama        — local Ollama Llama inference
     python main.py deliberation — deliberation-aware analysis
     python main.py linguistic   — linguistic framing analysis
     python main.py ethics       — bias / ethics audit
@@ -54,8 +55,8 @@ def _setup_logging(level: str) -> None:
 
 def _load_data(data_path: str):
     """Load and label-map the INFACT dataset."""
-    from src.data.label_mapping import apply_label_mapping
-    from src.data.load_dataset import load_infact, validate_dataset
+    from src.data_preprocessing.label_mapping import apply_label_mapping
+    from src.data_preprocessing.load_dataset import load_infact, validate_dataset
 
     df = load_infact(data_path)
     validate_dataset(df)
@@ -99,6 +100,28 @@ def cmd_llm(args: argparse.Namespace) -> None:
         num_epochs=getattr(args, 'num_epochs', 3),
         batch_size=getattr(args, 'batch_size', 16),
         output_dir=args.output_dir,
+    )
+
+
+def cmd_llama(args: argparse.Namespace) -> None:
+    """Run local Ollama Llama 3.1 inference."""
+    from src.llm.ollama_llama3_1_runner import run_ollama_inference
+
+    run_ollama_inference(
+        input_path=args.data_path,
+        output_jsonl=args.output_jsonl,
+        output_tsv=args.output_tsv,
+        base_url=args.base_url,
+        model_name=args.model_name,
+        limit=args.limit,
+        offset=args.offset,
+        include_scope=args.include_scope,
+        temperature=args.temperature,
+        max_tokens=args.max_tokens,
+        top_p=args.top_p,
+        seed=args.seed,
+        timeout=args.timeout,
+        max_retries=args.max_retries,
     )
 
 
@@ -293,6 +316,42 @@ def build_parser() -> argparse.ArgumentParser:
         help="Disable CLAIM/CONTEXT/SCOPE tags in the input text.",
     )
 
+    # --- llama (ollama) ---
+    op = subparsers.add_parser(
+        "llama",
+        help="Run Llama 3.1 inference via local Ollama.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    op.add_argument(
+        "--model_name",
+        default="llama3.1:70b-instruct",
+        help="Ollama model tag.",
+    )
+    op.add_argument(
+        "--base_url",
+        default="http://localhost:11434",
+        help="Ollama base URL.",
+    )
+    op.add_argument(
+        "--output_jsonl",
+        default="results/llm_outputs/ollama_llama3_1_outputs.jsonl",
+        help="JSONL output path.",
+    )
+    op.add_argument(
+        "--output_tsv",
+        default="results/llm_outputs/ollama_llama3_1_outputs.tsv",
+        help="TSV output path.",
+    )
+    op.add_argument("--limit", type=int, default=174, help="Max records to process.")
+    op.add_argument("--offset", type=int, default=0, help="Row offset in the dataset.")
+    op.add_argument("--include_scope", action="store_true", help="Include verification scope.")
+    op.add_argument("--temperature", type=float, default=0.0)
+    op.add_argument("--max_tokens", type=int, default=220)
+    op.add_argument("--top_p", type=float, default=1.0)
+    op.add_argument("--seed", type=int, default=None)
+    op.add_argument("--timeout", type=float, default=120.0)
+    op.add_argument("--max_retries", type=int, default=3)
+
     # --- deliberation ---
     subparsers.add_parser(
         "deliberation",
@@ -338,6 +397,7 @@ COMMAND_MAP = {
     "stats": cmd_stats,
     "baseline": cmd_baseline,
     "llm": cmd_llm,
+    "llama": cmd_llama,
     "transformers": cmd_transformers,
     "deliberation": cmd_deliberation,
     "linguistic": cmd_linguistic,

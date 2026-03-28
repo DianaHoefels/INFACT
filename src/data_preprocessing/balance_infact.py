@@ -5,9 +5,9 @@ Script to create a balanced version of the INFACT dataset using oversampling.
 """
 
 import pandas as pd
-from src.data.load_dataset import load_infact, validate_dataset
-from src.data.label_mapping import apply_label_mapping
-from src.data.resample import oversample_minority
+from src.data_preprocessing.load_dataset import load_infact, validate_dataset
+from src.data_preprocessing.label_mapping import apply_label_mapping
+from src.data_preprocessing.resample import oversample_minority
 
 if __name__ == "__main__":
     # Load and validate

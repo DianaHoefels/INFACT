@@ -206,3 +206,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Results and local artifacts
+results/figures/
+results/tables/
+results/reports/
+results/llm_outputs/
+*.jsonl
+*.log

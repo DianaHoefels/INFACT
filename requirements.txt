@@ -9,3 +9,9 @@ tqdm>=4.65.0
 scipy>=1.11.0
 datasets>=2.14.0
 accelerate>=1.1.0
+python-dotenv>=1.0.1
+requests>=2.31.0
+bitsandbytes>=0.42.0  # optional, for quantized LLMs
+jupyter  # optional, for notebooks
+rich>=13.0.0  # optional, for better CLI logs
+pyarrow>=14.0.0  # optional, for datasets/transformers
