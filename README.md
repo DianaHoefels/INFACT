@@ -27,7 +27,7 @@ Deliberation-Aware Fact-Checking},
   address        = {Palma de Mallorca, Spain},
   publisher      = {European Language Resources Association},
   pages     = {TBA},
-  abstract  = {TExplainability in deliberation-support NLP is usually evaluated through post-hoc rationales or model-internal attribution methods, and only rarely against explicit institutional reasoning procedures. We introduce \InFACT, a Romanian corpus of professional fact-checking reports that preserves the workflow of editorial epistemic arbitration, namely claim articulation, contextualisation, verification scope, evidence-based verification narrative, and calibrated conclusion. \InFACT\ contains 789 raw reports from \textit{factual.ro} and a processed benchmark release of 788 instances after removal of a singleton non-standard verdict label. Beyond six-way verdict prediction, we position \InFACT\ as a benchmark for LLM explanation alignment, where models must generate short explanations that can be compared directly to gold institutional reasoning. We evaluate \InFACT\ primarily with instruction-tuned LLMs, reporting full-corpus experiments for open-weight models and a matched pilot comparison with GPT-4 Turbo. The resulting evidence shows that verdict prediction and institutional explanation alignment are not the same capability: models that improve verdict accuracy do not necessarily preserve institutional calibration or produce explanations that align with professional verification narratives. These results support the central claim of the paper, namely that \InFACT\ measures not only whether a model reaches a verdict, but also whether it does so in a manner that resembles documented public reasoning.},
+  abstract  = {Explainability in deliberation-support NLP is usually evaluated through post-hoc rationales or model-internal attribution methods, and only rarely against explicit institutional reasoning procedures. We introduce \InFACT, a Romanian corpus of professional fact-checking reports that preserves the workflow of editorial epistemic arbitration, namely claim articulation, contextualisation, verification scope, evidence-based verification narrative, and calibrated conclusion. \InFACT\ contains 789 raw reports from \textit{factual.ro} and a processed benchmark release of 788 instances after removal of a singleton non-standard verdict label. Beyond six-way verdict prediction, we position \InFACT\ as a benchmark for LLM explanation alignment, where models must generate short explanations that can be compared directly to gold institutional reasoning. We evaluate \InFACT\ primarily with instruction-tuned LLMs, reporting full-corpus experiments for open-weight models and a matched pilot comparison with GPT-4 Turbo. The resulting evidence shows that verdict prediction and institutional explanation alignment are not the same capability: models that improve verdict accuracy do not necessarily preserve institutional calibration or produce explanations that align with professional verification narratives. These results support the central claim of the paper, namely that \InFACT\ measures not only whether a model reaches a verdict, but also whether it does so in a manner that resembles documented public reasoning.},
   url       = {TBA}
 }
 ```
@@ -60,7 +60,7 @@ Place the dataset TSV file inside the `data/` directory before running experimen
 ├── README.md
 ├── requirements.txt
 ├── main.py
-├── data/                        # Place dataset TSV here
+├── data/                        
 ├── scripts/
 │   └── evaluate_alignment.py
 └── src/
